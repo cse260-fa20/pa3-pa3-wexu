@@ -56,10 +56,10 @@ int main(int argc, char** argv)
 // Parse command line arguments
  cmdLine( argc, argv);
 // The algorithm fails when n is too small
- if (cb.n <= 25){
-    cout << "\n *** N must be larger than 25.  Exiting ... " << endl << endl;
-    exit(-1);
- }
+//  if (cb.n <= 25){
+//     cout << "\n *** N must be larger than 25.  Exiting ... " << endl << endl;
+//     exit(-1);
+//  }
  cb.m = cb.n;
  int nprocs=1, myrank=0;
  if (cb.debug)
