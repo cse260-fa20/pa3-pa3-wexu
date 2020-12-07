@@ -59,11 +59,11 @@ void repNorms(double l2norm, double mx, double dt, int m, int n, int niter, int 
 void stats(double *E, int m, int n, double *_mx, double *sumSq);
 void printMat2(const char mesg[], double *E, int m, int n);
 
-// #ifdef SSE_VEC
+#ifdef SSE_VEC
 // If you intend to vectorize using SSE instructions, you must
 // disable the compiler's auto-vectorizer
-// __attribute__((optimize("no-tree-vectorize")))
-// #endif
+__attribute__((optimize("no-tree-vectorize")))
+#endif
 
 // The L2 norm of an array is computed by taking sum of the squares
 // of each element, normalizing by dividing by the number of points
@@ -333,13 +333,16 @@ void solve(double **_E, double **_E_prev, double *R, double alpha, double dt, Pl
         // 4 FOR LOOPS set up the padding needed for the boundary conditions
         // Fills in the TOP Ghost Cells
 
-        exchange_value(E_prev);
+        if (!cb.noComm)
+            exchange_value(E_prev);
 
-        //////////////////////////////////////////////////////////////////////////////
-
-#define FUSED 1
+            //////////////////////////////////////////////////////////////////////////////
+            // #define AVX2 1
+            // #define FUSED 1
 
 #ifdef FUSED
+
+#ifdef AVX2
         // Solve for the excitation, a PDE
         for (j = innerBlockRowStartIndex; j <= innerBlockRowEndIndex; j += (n + 2))
         {
@@ -353,40 +356,57 @@ void solve(double **_E, double **_E_prev, double *R, double alpha, double dt, Pl
                 R_tmp[i] += dt * (epsilon + M1 * R_tmp[i] / (E_prev_tmp[i] + M2)) * (-R_tmp[i] - kk * E_prev_tmp[i] * (E_prev_tmp[i] - b - 1));
             }
         }
+
 #else
         // Solve for the excitation, a PDE
-        // for (j = innerBlockRowStartIndex; j <= innerBlockRowEndIndex; j += (BLOCK_N + 2))
-        // {
-        //     E_tmp = E + j;
-        //     E_prev_tmp = E_prev + j;
-        //     for (i = 0; i < BLOCK_N; i++)
-        //     {
-        //         E_tmp[i] = E_prev_tmp[i] + alpha * (E_prev_tmp[i + 1] + E_prev_tmp[i - 1] - 4 * E_prev_tmp[i] + E_prev_tmp[i + (BLOCK_N + 2)] + E_prev_tmp[i - (BLOCK_N + 2)]);
-        //     }
-        // }
+        for (j = innerBlockRowStartIndex; j <= innerBlockRowEndIndex; j += (n + 2))
+        {
+            E_tmp = E + j;
+            E_prev_tmp = E_prev + j;
+            R_tmp = R + j;
+            for (i = 0; i < BLOCK_N; i++)
+            {
+                E_tmp[i] = E_prev_tmp[i] + alpha * (E_prev_tmp[i + 1] + E_prev_tmp[i - 1] - 4 * E_prev_tmp[i] + E_prev_tmp[i + (n + 2)] + E_prev_tmp[i - (n + 2)]);
+                E_tmp[i] += -dt * (kk * E_prev_tmp[i] * (E_prev_tmp[i] - a) * (E_prev_tmp[i] - 1) + E_prev_tmp[i] * R_tmp[i]);
+                R_tmp[i] += dt * (epsilon + M1 * R_tmp[i] / (E_prev_tmp[i] + M2)) * (-R_tmp[i] - kk * E_prev_tmp[i] * (E_prev_tmp[i] - b - 1));
+            }
+        }
+#endif
 
-        // /*
-        //      * Solve the ODE, advancing excitation and recovery variables
-        //      *     to the next timtestep
-        //      */
+#else
+        // Solve for the excitation, a PDE
+        for (j = innerBlockRowStartIndex; j <= innerBlockRowEndIndex; j += (BLOCK_N + 2))
+        {
+            E_tmp = E + j;
+            E_prev_tmp = E_prev + j;
+            for (i = 0; i < BLOCK_N; i++)
+            {
+                E_tmp[i] = E_prev_tmp[i] + alpha * (E_prev_tmp[i + 1] + E_prev_tmp[i - 1] - 4 * E_prev_tmp[i] + E_prev_tmp[i + (BLOCK_N + 2)] + E_prev_tmp[i - (BLOCK_N + 2)]);
+            }
+        }
 
-        // for (j = innerBlockRowStartIndex; j <= innerBlockRowEndIndex; j += (BLOCK_N + 2))
-        // {
-        //     E_tmp = E + j;
-        //     R_tmp = R + j;
-        //     E_prev_tmp = E_prev + j;
-        //     for (i = 0; i < BLOCK_N; i++)
-        //     {
-        //         E_tmp[i] += -dt * (kk * E_prev_tmp[i] * (E_prev_tmp[i] - a) * (E_prev_tmp[i] - 1) + E_prev_tmp[i] * R_tmp[i]);
-        //         R_tmp[i] += dt * (epsilon + M1 * R_tmp[i] / (E_prev_tmp[i] + M2)) * (-R_tmp[i] - kk * E_prev_tmp[i] * (E_prev_tmp[i] - b - 1));
-        //     }
-        // }
+        /*
+                 * Solve the ODE, advancing excitation and recovery variables
+                 *     to the next timtestep
+                 */
+
+        for (j = innerBlockRowStartIndex; j <= innerBlockRowEndIndex; j += (BLOCK_N + 2))
+        {
+            E_tmp = E + j;
+            R_tmp = R + j;
+            E_prev_tmp = E_prev + j;
+            for (i = 0; i < BLOCK_N; i++)
+            {
+                E_tmp[i] += -dt * (kk * E_prev_tmp[i] * (E_prev_tmp[i] - a) * (E_prev_tmp[i] - 1) + E_prev_tmp[i] * R_tmp[i]);
+                R_tmp[i] += dt * (epsilon + M1 * R_tmp[i] / (E_prev_tmp[i] + M2)) * (-R_tmp[i] - kk * E_prev_tmp[i] * (E_prev_tmp[i] - b - 1));
+            }
+        }
 #endif
         /////////////////////////////////////////////////////////////////////////////////
 
         if (cb.stats_freq)
         {
-            // if (!(niter % cb.stats_freq))
+            if (!(niter % cb.stats_freq))
             {
                 stats(E, m, n, &mx, &sumSq);
                 double l2norm = L2Norm(sumSq);
@@ -412,11 +432,11 @@ void solve(double **_E, double **_E_prev, double *R, double alpha, double dt, Pl
 
     } //end of 'niter' loop at the beginning
 
-    if (p_m * p_n != 1)
+    if (p_m * p_n != 1 && !cb.noComm)
         gather_result(E_prev, R);
 
     // if (myrank == MASTER)
-        // printMat2("\n\nRank 0 Final matrix E_prev\n\n", E_prev, m, n); // return the L2 and infinity norms via in-out parameters
+    // printMat2("\n\nRank 0 Final matrix E_prev\n\n", E_prev, m, n); // return the L2 and infinity norms via in-out parameters
 
     stats(E_prev, m, n, &Linf, &sumSq);
     L2 = L2Norm(sumSq);
