@@ -14,11 +14,9 @@
 #SBATCH -t 00:03:00
 # Commands go here
 
-ibrun -np 192 ./apf -n 8000 -i 2000 -x 2 -y 96 -k
-ibrun -np 192 ./apf -n 8000 -i 2000 -x 4 -y 48 -k
-ibrun -np 192 ./apf -n 8000 -i 2000 -x 6 -y 32 -k
-ibrun -np 192 ./apf -n 8000 -i 2000 -x 8 -y 24 -k
-ibrun -np 192 ./apf -n 8000 -i 2000 -x 16 -y 12 -k
-ibrun -np 192 ./apf -n 8000 -i 2000 -x 32 -y 6 -k
-ibrun -np 192 ./apf -n 8000 -i 2000 -x 64 -y 3 -k
+ibrun -np 240 ./apf -n 8000 -i 2000 -x 2 -y 120 -k
+ibrun -np 240 ./apf -n 8000 -i 2000 -x 4 -y 60 -k
+ibrun -np 240 ./apf -n 8000 -i 2000 -x 6 -y 40 -k
+ibrun -np 240 ./apf -n 8000 -i 2000 -x 8 -y 30 -k
+ibrun -np 240 ./apf -n 8000 -i 2000 -x 16 -y 15 -k
 
