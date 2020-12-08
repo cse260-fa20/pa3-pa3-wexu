@@ -51,31 +51,42 @@
 #
 
 # Change to the directory where the job was submitted from
-cd $SGE_O_WORKDIR
-
-echo
-echo " *** Current working directory"
-pwd
-echo
-echo " *** Compiler"
-# Output which  compiler are we using and the environment
-mpicc -v
-echo
-echo " *** Environment"
-printenv
-
-echo
-
-echo ">>> Job Starts"
-date
-
 # Commands go here
 
+
+# mpirun -np 1 ./apf -n 400 -i 500 -x 1 -y 1
+# mpirun -np 8 ./apf -n 400 -i 500 -x 1 -y 8
+# 
 # mpirun -np 1 ./apf -n 400 -i 2000 -x 1 -y 1
 # mpirun -np 2 ./apf -n 400 -i 2000 -x 1 -y 2
 # mpirun -np 4 ./apf -n 400 -i 2000 -x 1 -y 4
 # mpirun -np 8 ./apf -n 400 -i 2000 -x 1 -y 8
-mpirun -np 8 ./apf -n 400 -i 2000 -x 2 -y 4
+# 
+# mpirun -np 8 ./apf -n 400 -i 2000 -x 2 -y 4
+# mpirun -np 8 ./apf -n 400 -i 2000 -x 4 -y 2
+# mpirun -np 8 ./apf -n 400 -i 2000 -x 8 -y 1
+# mpirun -np 8 ./apf -n 400 -i 2000 -x 1 -y 8
+# 
+
+
+# mpirun -np 1 ./apf -n 16 -i 4 -x 1 -y 1
+# mpirun -np 4 ./apf -n 16 -i 4 -x 2 -y 2
+# mpirun -np 4 ./apf -n 16 -i 4 -x 4 -y 1
+# mpirun -np 4 ./apf -n 16 -i 4 -x 1 -y 4
+
+
+
+mpirun -np 1 ./apf -n 29 -i 10 -x 1 -y 1
+mpirun -np 4 ./apf -n 29 -i 10 -x 2 -y 2
+mpirun -np 8 ./apf -n 29 -i 10 -x 2 -y 4
+mpirun -np 8 ./apf -n 29 -i 10 -x 4 -y 2
+
+
+# mpirun -np 4 ./apf -n 16 -i 4 -x 4 -y 1
+# mpirun -np 4 ./apf -n 16 -i 4 -x 1 -y 4
+
+
+
 # mpirun -np 2 ./apf -n 400 -i 2000 -x 1 -y 2 -k
 # mpirun -np 4 ./apf -n 400 -i 2000 -x 1 -y 4 -k
 # mpirun -np 8 ./apf -n 400 -i 2000 -x 1 -y 8 -k

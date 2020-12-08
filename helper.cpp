@@ -42,6 +42,9 @@ int node_m, node_n;
 int p_m, p_n;
 int myrank;
 
+int border_node_row, border_node_col;
+int node_start_row_ind, node_row_num, node_col_num;
+
 double *buffer_in_west;
 double *buffer_in_east;
 double *buffer_in_north;
@@ -70,34 +73,48 @@ void init(double *E, double *E_prev, double *R, int m, int n)
     MPI_Comm_rank(MPI_COMM_WORLD, &myrank);
 
     int i, j, source, dest;
-    int start_ind, mtype;
+    int mtype;
 
     p_m = cb.py;
     p_n = cb.px;
 
     int numworkers = p_m * p_n;
 
-    BLOCK_M = cb.m / p_m;
-    BLOCK_N = cb.n / p_n;
+    BLOCK_M = cb.m % p_m ? cb.m / p_m + 1 : cb.m / p_m;
+    BLOCK_N = cb.n % p_n ? cb.n / p_n + 1 : cb.n / p_n;
+
+    node_m = myrank / p_n;
+    node_n = myrank % p_n;
+
+    border_node_row = BLOCK_M - (BLOCK_M * p_m - cb.m);
+    border_node_col = BLOCK_N - (BLOCK_N * p_n - cb.n);
+    node_start_row_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + 1 + node_n * BLOCK_N;
+
+    if (node_m == p_m - 1)
+        node_row_num = border_node_row;
+    else
+        node_row_num = BLOCK_M;
+
+    if (node_n == p_n - 1)
+        node_col_num = border_node_col;
+    else
+        node_col_num = BLOCK_N;
 
     BLOCK_SIZE = BLOCK_M * BLOCK_N;
     PACK_SIZE = (BLOCK_M + 2) * (BLOCK_N + 2);
 
-    buffer_in_west = alloc1D(1, BLOCK_M);
-    buffer_in_east = alloc1D(1, BLOCK_M);
-    buffer_in_north = alloc1D(1, BLOCK_N);
-    buffer_in_south = alloc1D(1, BLOCK_N);
+    buffer_in_west = alloc1D(1, node_row_num);
+    buffer_in_east = alloc1D(1, node_row_num);
+    buffer_in_north = alloc1D(1, node_col_num);
+    buffer_in_south = alloc1D(1, node_col_num);
 
-    buffer_out_west = alloc1D(1, BLOCK_M);
-    buffer_out_east = alloc1D(1, BLOCK_M);
-    buffer_out_north = alloc1D(1, BLOCK_N);
-    buffer_out_south = alloc1D(1, BLOCK_N);
+    buffer_out_west = alloc1D(1, node_row_num);
+    buffer_out_east = alloc1D(1, node_row_num);
+    buffer_out_north = alloc1D(1, node_col_num);
+    buffer_out_south = alloc1D(1, node_col_num);
 
     buffer_E = alloc1D(BLOCK_M, BLOCK_N);
     buffer_R = alloc1D(BLOCK_M, BLOCK_N);
-
-    node_m = myrank / p_n;
-    node_n = myrank % p_n;
 
     if (myrank == MASTER)
     {
@@ -128,10 +145,9 @@ void init(double *E, double *E_prev, double *R, int m, int n)
         }
     }
 
-    /*********** Initialization from the master node ***********/
     double *buffer_E_prev = alloc1D(BLOCK_M, BLOCK_N);
     double *buffer_R = alloc1D(BLOCK_M, BLOCK_N);
-
+    /*********** Initialization from the master node ***********/
     if (p_m * p_n != 1)
     {
         if (myrank == MASTER)
@@ -142,13 +158,25 @@ void init(double *E, double *E_prev, double *R, int m, int n)
                 int dest_node_m = dest / p_n;
                 int dest_node_n = dest % p_n;
 
-                start_ind = dest_node_m * (n + 2) * BLOCK_M + (n + 2) + 1 + dest_node_n * BLOCK_N;
-                for (i = 0; i < BLOCK_M; i++)
+                int dest_node_start_row_ind = dest_node_m * (n + 2) * BLOCK_M + (n + 2) + 1 + dest_node_n * BLOCK_N;
+                int dest_node_col_num, dest_node_row_num;
+
+                if (dest_node_m == p_m - 1)
+                    dest_node_row_num = border_node_row;
+                else
+                    dest_node_row_num = BLOCK_M;
+
+                if (dest_node_n == p_n - 1)
+                    dest_node_col_num = border_node_col;
+                else
+                    dest_node_col_num = BLOCK_N;
+
+                for (i = 0; i < dest_node_row_num; i++)
                 {
-                    for (j = 0; j < BLOCK_N; j++)
+                    for (j = 0; j < dest_node_col_num; j++)
                     {
-                        buffer_E_prev[i * BLOCK_N + j] = E_prev[start_ind + i * (n + 2) + j];
-                        buffer_R[i * BLOCK_N + j] = R[start_ind + i * (n + 2) + j];
+                        buffer_E_prev[i * dest_node_col_num + j] = E_prev[dest_node_start_row_ind + i * (n + 2) + j];
+                        buffer_R[i * dest_node_col_num + j] = R[dest_node_start_row_ind + i * (n + 2) + j];
                     }
                 }
 
@@ -163,14 +191,12 @@ void init(double *E, double *E_prev, double *R, int m, int n)
             MPI_Recv(buffer_E_prev, BLOCK_SIZE, MPI_DOUBLE, MASTER, mtype, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             MPI_Recv(buffer_R, BLOCK_SIZE, MPI_DOUBLE, MASTER, mtype, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
 
-            start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + 1 + node_n * BLOCK_N;
-            // printf("\n\ Ind : Rank %d,\tind = %d,\tn=%d\n", myrank, start_ind, n);
-            for (i = 0; i < BLOCK_M; i++)
+            for (i = 0; i < node_row_num; i++)
             {
-                for (j = 0; j < BLOCK_N; j++)
+                for (j = 0; j < node_col_num; j++)
                 {
-                    E_prev[start_ind + i * (n + 2) + j] = buffer_E_prev[i * BLOCK_N + j];
-                    R[start_ind + i * (n + 2) + j] = buffer_R[i * BLOCK_N + j];
+                    E_prev[node_start_row_ind + i * (n + 2) + j] = buffer_E_prev[i * node_col_num + j];
+                    R[node_start_row_ind + i * (n + 2) + j] = buffer_R[i * node_col_num + j];
                 }
             }
         }
@@ -180,8 +206,8 @@ void init(double *E, double *E_prev, double *R, int m, int n)
     // We only print the meshes if they are small enough
 #if 1
     // printf("\nRank %d After initialization\n", myrank);
-    printMat("E_prev", E_prev, m, n);
-    printMat("R", R, m, n);
+    // printMat("E_prev", E_prev, m, n);
+    // printMat("R", R, m, n);
 #endif
 }
 

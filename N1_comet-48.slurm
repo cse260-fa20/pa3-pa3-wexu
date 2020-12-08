@@ -21,12 +21,3 @@ ibrun -np 48 ./apf -n 1800 -i 2000 -x 8 -y 6
 ibrun -np 48 ./apf -n 1800 -i 2000 -x 12 -y 4
 ibrun -np 48 ./apf -n 1800 -i 2000 -x 24 -y 2
 
-
-ibrun -np 48 ./apf -n 1800 -i 2000 -x 2 -y 24 -k 
-ibrun -np 48 ./apf -n 1800 -i 2000 -x 4 -y 12 -k
-ibrun -np 48 ./apf -n 1800 -i 2000 -x 6 -y 8 -k
-ibrun -np 48 ./apf -n 1800 -i 2000 -x 8 -y 6 -k
-ibrun -np 48 ./apf -n 1800 -i 2000 -x 12 -y 4 -k
-ibrun -np 48 ./apf -n 1800 -i 2000 -x 24 -y 2 -k
-
-

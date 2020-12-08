@@ -13,14 +13,9 @@
 ####   #SBATCH --mail-user=your_email@ucsd.edu
 #SBATCH -t 00:03:00
 # Commands go here
-
-ibrun -np 24 ./apf -n 1800 -i 2000 -x 2 -y 12
-ibrun -np 24 ./apf -n 1800 -i 2000 -x 3 -y 8
-ibrun -np 24 ./apf -n 1800 -i 2000 -x 4 -y 6
-ibrun -np 24 ./apf -n 1800 -i 2000 -x 6 -y 4
-ibrun -np 24 ./apf -n 1800 -i 2000 -x 8 -y 3
-ibrun -np 24 ./apf -n 1800 -i 2000 -x 12 -y 2
-
-
-
-
+ibrun -np 96 ./apf -n 1800 -i 2000 -x 2 -y 48 -k 
+ibrun -np 96 ./apf -n 1800 -i 2000 -x 4 -y 24 -k
+ibrun -np 96 ./apf -n 1800 -i 2000 -x 8 -y 12 -k
+ibrun -np 96 ./apf -n 1800 -i 2000 -x 12 -y 8 -k
+ibrun -np 96 ./apf -n 1800 -i 2000 -x 24 -y 4 -k
+ibrun -np 96 ./apf -n 1800 -i 2000 -x 48 -y 2 -k

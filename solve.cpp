@@ -37,6 +37,8 @@ extern control_block cb;
 
 extern int p_m, p_n, node_m, node_n;
 extern int myrank;
+extern int border_node_row, border_node_col;
+extern int node_start_row_ind, node_row_num, node_col_num;
 
 extern double *buffer_in_west;
 extern double *buffer_in_east;
@@ -93,8 +95,9 @@ void exchange_value(double *E_prev)
     // West
     if (node_n == 0)
     {
-        pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + node_n * BLOCK_N;
-        for (i = 0; i < BLOCK_M; i++)
+        // pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + node_n * BLOCK_N;
+        pack_start_ind = node_start_row_ind - 1;
+        for (i = 0; i < node_row_num; i++)
         {
             E_prev[pack_start_ind] = E_prev[pack_start_ind + 2];
             pack_start_ind += n + 2;
@@ -103,17 +106,18 @@ void exchange_value(double *E_prev)
     else
     {
         mtype = FROM_WORKER;
-        MPI_Irecv(buffer_in_west, BLOCK_M, MPI_DOUBLE, myrank - 1, mtype, MPI_COMM_WORLD, reqs + op_count);
+        MPI_Irecv(buffer_in_west, node_row_num, MPI_DOUBLE, myrank - 1, mtype, MPI_COMM_WORLD, reqs + op_count);
 
-        pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + 1 + node_n * BLOCK_N;
-        for (i = 0; i < BLOCK_M; i++)
+        // pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + 1 + node_n * BLOCK_N;
+        pack_start_ind = node_start_row_ind;
+        for (i = 0; i < node_row_num; i++)
         {
             buffer_out_west[i] = E_prev[pack_start_ind];
             pack_start_ind += n + 2;
         }
 
         mtype = FROM_WORKER;
-        MPI_Isend(buffer_out_west, BLOCK_M, MPI_DOUBLE, myrank - 1, mtype, MPI_COMM_WORLD, reqs + op_count + 1);
+        MPI_Isend(buffer_out_west, node_row_num, MPI_DOUBLE, myrank - 1, mtype, MPI_COMM_WORLD, reqs + op_count + 1);
 
         op_count += 2;
     }
@@ -121,8 +125,9 @@ void exchange_value(double *E_prev)
     // East
     if (node_n == p_n - 1)
     {
-        pack_start_ind = node_m * (n + 2) * BLOCK_M + 2 * (n + 2) - 1 + node_n * BLOCK_N;
-        for (i = 0; i < BLOCK_M; i++)
+        // pack_start_ind = node_m * (n + 2) * BLOCK_M + 2 * (n + 2) - 1 + node_n * BLOCK_N;
+        pack_start_ind = node_start_row_ind + node_col_num;
+        for (i = 0; i < node_row_num; i++)
         {
             E_prev[pack_start_ind] = E_prev[pack_start_ind - 2];
             pack_start_ind += n + 2;
@@ -131,17 +136,18 @@ void exchange_value(double *E_prev)
     else
     {
         mtype = FROM_WORKER;
-        MPI_Irecv(buffer_in_east, BLOCK_M, MPI_DOUBLE, myrank + 1, mtype, MPI_COMM_WORLD, reqs + op_count);
+        MPI_Irecv(buffer_in_east, node_row_num, MPI_DOUBLE, myrank + 1, mtype, MPI_COMM_WORLD, reqs + op_count);
 
-        pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) - 1 + BLOCK_N + node_n * BLOCK_N;
-        for (i = 0; i < BLOCK_M; i++)
+        // pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) - 1 + BLOCK_N + node_n * BLOCK_N;
+        pack_start_ind = node_start_row_ind + node_col_num - 1;
+        for (i = 0; i < node_row_num; i++)
         {
             buffer_out_east[i] = E_prev[pack_start_ind];
             pack_start_ind += n + 2;
         }
 
         mtype = FROM_WORKER;
-        MPI_Isend(buffer_out_east, BLOCK_M, MPI_DOUBLE, myrank + 1, mtype, MPI_COMM_WORLD, reqs + op_count + 1);
+        MPI_Isend(buffer_out_east, node_row_num, MPI_DOUBLE, myrank + 1, mtype, MPI_COMM_WORLD, reqs + op_count + 1);
 
         op_count += 2;
     }
@@ -149,8 +155,9 @@ void exchange_value(double *E_prev)
     // North
     if (node_m == 0)
     {
-        pack_start_ind = node_m * (n + 2) * BLOCK_M + 1 + node_n * BLOCK_N;
-        for (i = 0; i < BLOCK_N; i++)
+        // pack_start_ind = node_m * (n + 2) * BLOCK_M + 1 + node_n * BLOCK_N;
+        pack_start_ind = node_start_row_ind - (n + 2);
+        for (i = 0; i < node_col_num; i++)
         {
             E_prev[pack_start_ind] = E_prev[pack_start_ind + 2 * (n + 2)];
             pack_start_ind += 1;
@@ -159,12 +166,14 @@ void exchange_value(double *E_prev)
     else
     {
         mtype = FROM_WORKER;
-        pack_start_ind = node_m * (n + 2) * BLOCK_M + 1 + node_n * BLOCK_N;
-        MPI_Irecv(E_prev + pack_start_ind, BLOCK_N, MPI_DOUBLE, myrank - p_n, mtype, MPI_COMM_WORLD, reqs + op_count);
+        // pack_start_ind = node_m * (n + 2) * BLOCK_M + 1 + node_n * BLOCK_N;
+        pack_start_ind = node_start_row_ind - (n + 2);
+        MPI_Irecv(E_prev + pack_start_ind, node_col_num, MPI_DOUBLE, myrank - p_n, mtype, MPI_COMM_WORLD, reqs + op_count);
 
         mtype = FROM_WORKER;
-        pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + 1 + node_n * BLOCK_N;
-        MPI_Isend(E_prev + pack_start_ind, BLOCK_N, MPI_DOUBLE, myrank - p_n, mtype, MPI_COMM_WORLD, reqs + op_count + 1);
+        // pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + 1 + node_n * BLOCK_N;
+        pack_start_ind = node_start_row_ind;
+        MPI_Isend(E_prev + pack_start_ind, node_col_num, MPI_DOUBLE, myrank - p_n, mtype, MPI_COMM_WORLD, reqs + op_count + 1);
 
         op_count += 2;
     }
@@ -172,8 +181,9 @@ void exchange_value(double *E_prev)
     // South
     if (node_m == p_m - 1)
     {
-        pack_start_ind = (m + 1) * (n + 2) + 1 + node_n * BLOCK_N;
-        for (i = 0; i < BLOCK_N; i++)
+        // pack_start_ind = (m + 1) * (n + 2) + 1 + node_n * BLOCK_N;
+        pack_start_ind = node_start_row_ind + (n + 2) * node_row_num;
+        for (i = 0; i < node_col_num; i++)
         {
             E_prev[pack_start_ind] = E_prev[pack_start_ind - 2 * (n + 2)];
             pack_start_ind += 1;
@@ -182,12 +192,14 @@ void exchange_value(double *E_prev)
     else
     {
         mtype = FROM_WORKER;
-        pack_start_ind = node_m * (n + 2) * BLOCK_M + BLOCK_M * (n + 2) + 1 + node_n * BLOCK_N;
-        MPI_Irecv(E_prev + pack_start_ind, BLOCK_N, MPI_DOUBLE, myrank + p_n, mtype, MPI_COMM_WORLD, reqs + op_count);
+        // pack_start_ind = node_m * (n + 2) * BLOCK_M + BLOCK_M * (n + 2) + 1 + node_n * BLOCK_N;
+        pack_start_ind = node_start_row_ind + (n + 2) * node_row_num;
+        MPI_Irecv(E_prev + pack_start_ind, node_col_num, MPI_DOUBLE, myrank + p_n, mtype, MPI_COMM_WORLD, reqs + op_count);
 
         mtype = FROM_WORKER;
-        pack_start_ind = node_m * (n + 2) * BLOCK_M + (BLOCK_M - 1) * (n + 2) + 1 + node_n * BLOCK_N;
-        MPI_Isend(E_prev + pack_start_ind, BLOCK_N, MPI_DOUBLE, myrank + p_n, mtype, MPI_COMM_WORLD, reqs + op_count + 1);
+        // pack_start_ind = node_m * (n + 2) * BLOCK_M + (BLOCK_M - 1) * (n + 2) + 1 + node_n * BLOCK_N;
+        pack_start_ind = node_start_row_ind + (n + 2) * (node_row_num - 1);
+        MPI_Isend(E_prev + pack_start_ind, node_col_num, MPI_DOUBLE, myrank + p_n, mtype, MPI_COMM_WORLD, reqs + op_count + 1);
 
         op_count += 2;
     }
@@ -198,9 +210,9 @@ void exchange_value(double *E_prev)
     // Unpack West
     if (node_n != 0)
     {
-        // pack_start_ind = BLOCK_N + 2;
-        pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + node_n * BLOCK_N;
-        for (i = 0; i < BLOCK_M; i++)
+        // pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + node_n * BLOCK_N;
+        pack_start_ind = node_start_row_ind - 1;
+        for (i = 0; i < node_row_num; i++)
         {
             E_prev[pack_start_ind] = buffer_in_west[i];
             pack_start_ind += n + 2;
@@ -210,8 +222,9 @@ void exchange_value(double *E_prev)
     // Unpack East
     if (node_n != p_n - 1)
     {
-        pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + BLOCK_N + node_n * BLOCK_N;
-        for (i = 0; i < BLOCK_M; i++)
+        // pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + BLOCK_N + node_n * BLOCK_N;
+        pack_start_ind = node_start_row_ind + node_col_num;
+        for (i = 0; i < node_row_num; i++)
         {
             E_prev[pack_start_ind] = buffer_in_east[i];
             pack_start_ind += n + 2;
@@ -242,15 +255,26 @@ void gather_result(double *E, double *R)
             int src_node_m = source / p_n;
             int src_node_n = source % p_n;
 
+            int src_node_row_num, src_node_col_num;
+            if (src_node_m == p_m - 1)
+                src_node_row_num = border_node_row;
+            else
+                src_node_row_num = BLOCK_M;
+
+            if (src_node_n == p_n - 1)
+                src_node_col_num = border_node_col;
+            else
+                src_node_col_num = BLOCK_N;
+
             start_ind = src_node_m * (n + 2) * BLOCK_M + (n + 2) + 1 + src_node_n * BLOCK_N;
             // printf("\n\nGather results: Rank %d,\tind = %d,\tn=%d\n", myrank, start_ind, n);
 
-            for (i = 0; i < BLOCK_M; i++)
+            for (i = 0; i < src_node_row_num; i++)
             {
-                for (j = 0; j < BLOCK_N; j++)
+                for (j = 0; j < src_node_col_num; j++)
                 {
-                    E[start_ind + i * (n + 2) + j] = buffer_E[i * BLOCK_N + j];
-                    R[start_ind + i * (n + 2) + j] = buffer_R[i * BLOCK_N + j];
+                    E[start_ind + i * (n + 2) + j] = buffer_E[i * src_node_col_num + j];
+                    R[start_ind + i * (n + 2) + j] = buffer_R[i * src_node_col_num + j];
                 }
             }
         }
@@ -258,14 +282,12 @@ void gather_result(double *E, double *R)
     else
     {
         // Slave nodes
-        start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) + 1 + node_n * BLOCK_N;
-        for (i = 0; i < BLOCK_M; i++)
+        for (i = 0; i < node_row_num; i++)
         {
-            // start_ind = (i + 1) * (BLOCK_N + 2) + 1;
-            for (j = 0; j < BLOCK_N; j++)
+            for (j = 0; j < node_col_num; j++)
             {
-                buffer_E[i * BLOCK_N + j] = E[start_ind + i * (n + 2) + j];
-                buffer_R[i * BLOCK_N + j] = R[start_ind + i * (n + 2) + j];
+                buffer_E[i * node_col_num + j] = E[node_start_row_ind + i * (n + 2) + j];
+                buffer_R[i * node_col_num + j] = R[node_start_row_ind + i * (n + 2) + j];
             }
         }
 
@@ -290,8 +312,8 @@ void solve(double **_E, double **_E_prev, double *R, double alpha, double dt, Pl
 
     m = cb.m, n = cb.n;
 
-    int innerBlockRowStartIndex = node_m * (n + 2) * BLOCK_M + (n + 2) + 1 + node_n * BLOCK_N;
-    int innerBlockRowEndIndex = innerBlockRowStartIndex + (BLOCK_M - 1) * (n + 2);
+    int innerBlockRowStartIndex = node_start_row_ind;
+    int innerBlockRowEndIndex = node_start_row_ind + (node_row_num - 1) * (n + 2);
 
     /*  MPI variables  */
     int dest,  /* task id of message destination */
@@ -302,8 +324,8 @@ void solve(double **_E, double **_E_prev, double *R, double alpha, double dt, Pl
     // the desired number of iterations
     for (niter = 0; niter < cb.niters; niter++)
     {
-        // if (cb.debug && (niter == 0))
-        if (cb.stats_freq && (niter == 0))
+        if (cb.debug && (niter == 0))
+        // if (cb.stats_freq && (niter == 0))
         {
             stats(E_prev, m, n, &mx, &sumSq);
             double l2norm = L2Norm(sumSq);
@@ -362,7 +384,7 @@ void solve(double **_E, double **_E_prev, double *R, double alpha, double dt, Pl
             E_tmp = E + j;
             E_prev_tmp = E_prev + j;
             R_tmp = R + j;
-            for (i = 0; i < BLOCK_N; i++)
+            for (i = 0; i < node_col_num; i++)
             {
                 register double tmp_E_prev = E_prev_tmp[i];
                 register double tmp_E_prev_left = E_prev_tmp[i - 1];
@@ -442,7 +464,7 @@ void solve(double **_E, double **_E_prev, double *R, double alpha, double dt, Pl
         gather_result(E_prev, R);
 
     // if (myrank == MASTER)
-    // printMat2("\n\nRank 0 Final matrix E_prev\n\n", E_prev, m, n); // return the L2 and infinity norms via in-out parameters
+        // printMat2("\n\nRank 0 Final matrix E_prev\n\n", E_prev, m, n); // return the L2 and infinity norms via in-out parameters
 
     stats(E_prev, m, n, &Linf, &sumSq);
     L2 = L2Norm(sumSq);
