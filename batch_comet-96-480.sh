@@ -14,14 +14,14 @@
 sbatch --output="comet-96.out" --nodes=4 N1_comet-96.slurm
 sbatch --output="comet-96-nocomm.out" --nodes=4 N1_comet-96-nocomm.slurm
 
-sbatch --output="comet-192.out" --nodes=8 N1_comet-192.slurm
-sbatch --output="comet-192-nocomm.out" --nodes=8 N1_comet-192-nocomm.slurm
+sbatch --output="comet-192.out" --nodes=8 N2_comet-192.slurm
+sbatch --output="comet-192-nocomm.out" --nodes=8 N2_comet-192-nocomm.slurm
 
-sbatch --output="comet-240.out" --nodes=10 N1_comet-240.slurm
-sbatch --output="comet-240-nocomm.out" --nodes=10 N1_comet-240-nocomm.slurm
+sbatch --output="comet-240.out" --nodes=10 N2_comet-240.slurm
+sbatch --output="comet-240-nocomm.out" --nodes=10 N2_comet-240-nocomm.slurm
 
-sbatch --output="comet-384.out" --nodes=16 N1_comet-384.slurm
-sbatch --output="comet-384-nocomm.out" --nodes=16 N1_comet-384-nocomm.slurm
+sbatch --output="comet-384.out" --nodes=16 N2_comet-384.slurm
+sbatch --output="comet-384-nocomm.out" --nodes=16 N2_comet-384-nocomm.slurm
 
-sbatch --output="comet-480.out" --nodes=20 N1_comet-480.slurm
-sbatch --output="comet-480-nocomm.out" --nodes=20 N1_comet-480-nocomm.slurm
+sbatch --output="comet-480.out" --nodes=20 N2_comet-480.slurm
+sbatch --output="comet-480-nocomm.out" --nodes=20 N2_comet-480-nocomm.slurm
