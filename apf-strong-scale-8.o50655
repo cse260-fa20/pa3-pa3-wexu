@@ -1,0 +1,193 @@
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 21: : command not found
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 39: : command not found
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 52: : command not found
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 55: : command not found
+
+[Simulation begins] Mon Dec  7 23:38:04 2020
+
+dt= 0.0224798, # iters = 500
+m x n = 400 x 400
+processor geometry: 1 x 1
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Mon Dec  7 23:38:09 2020
+
+End at iteration 499
+Max norm: 9.92446e-01, L2norm: 5.91304e-01
+Running Time: 4.87762 sec. [0.459 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 400 400    1 1      Y     500  4.878 0.4592    9.92446e-01 5.91304e-01
+  -----
+
+[Simulation begins] Mon Dec  7 23:38:10 2020
+
+dt= 0.0224798, # iters = 500
+m x n = 400 x 400
+processor geometry: 1 x 8
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Mon Dec  7 23:38:11 2020
+
+End at iteration 499
+Max norm: 9.92446e-01, L2norm: 5.89231e-01
+Running Time: 0.62949 sec. [3.56 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 400 400    1 8      Y     500  0.6295 3.558    9.92446e-01 5.89231e-01
+  -----
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 58: : command not found
+
+[Simulation begins] Mon Dec  7 23:38:11 2020
+
+dt= 0.0224798, # iters = 2000
+m x n = 400 x 400
+processor geometry: 1 x 1
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Mon Dec  7 23:38:31 2020
+
+End at iteration 1999
+Max norm: 9.92447e-01, L2norm: 7.16013e-01
+Running Time: 19.6595 sec. [0.456 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 400 400    1 1      Y     2000  19.66 0.4558    9.92447e-01 7.16013e-01
+  -----
+
+[Simulation begins] Mon Dec  7 23:38:32 2020
+
+dt= 0.0224798, # iters = 2000
+m x n = 400 x 400
+processor geometry: 1 x 2
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Mon Dec  7 23:38:42 2020
+
+End at iteration 1999
+Max norm: 9.92447e-01, L2norm: 7.15127e-01
+Running Time: 9.85275 sec. [0.909 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 400 400    1 2      Y     2000  9.853 0.9094    9.92447e-01 7.15127e-01
+  -----
+
+[Simulation begins] Mon Dec  7 23:38:43 2020
+
+dt= 0.0224798, # iters = 2000
+m x n = 400 x 400
+processor geometry: 1 x 4
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Mon Dec  7 23:38:48 2020
+
+End at iteration 1999
+Max norm: 9.92447e-01, L2norm: 7.15246e-01
+Running Time: 4.95253 sec. [1.81 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 400 400    1 4      Y     2000  4.953 1.809    9.92447e-01 7.15246e-01
+  -----
+
+[Simulation begins] Mon Dec  7 23:38:49 2020
+
+dt= 0.0224798, # iters = 2000
+m x n = 400 x 400
+processor geometry: 1 x 8
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Mon Dec  7 23:38:51 2020
+
+End at iteration 1999
+Max norm: 9.92447e-01, L2norm: 7.15149e-01
+Running Time: 2.49354 sec. [3.59 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 400 400    1 8      Y     2000  2.494 3.593    9.92447e-01 7.15149e-01
+  -----
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 63: : command not found
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 67: : command not found
+
+[Simulation begins] Mon Dec  7 23:38:53 2020
+
+dt= 0.0224798, # iters = 2000
+m x n = 400 x 400
+processor geometry: 2 x 4
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Mon Dec  7 23:38:55 2020
+
+End at iteration 1999
+Max norm: 9.92451e-01, L2norm: 7.10739e-01
+Running Time: 2.49493 sec. [3.59 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 400 400    2 4      Y     2000  2.495 3.591    9.92451e-01 7.10739e-01
+  -----
+
+[Simulation begins] Mon Dec  7 23:38:56 2020
+
+dt= 0.0224798, # iters = 2000
+m x n = 400 x 400
+processor geometry: 4 x 2
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Mon Dec  7 23:38:59 2020
+
+End at iteration 1999
+Max norm: 9.92464e-01, L2norm: 7.11891e-01
+Running Time: 2.50361 sec. [3.58 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 400 400    4 2      Y     2000  2.504 3.579    9.92464e-01 7.11891e-01
+  -----
+
+[Simulation begins] Mon Dec  7 23:39:00 2020
+
+dt= 0.0224798, # iters = 2000
+m x n = 400 x 400
+processor geometry: 8 x 1
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Mon Dec  7 23:39:02 2020
+
+End at iteration 1999
+Max norm: 9.92744e-01, L2norm: 7.14229e-01
+Running Time: 2.51356 sec. [3.56 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 400 400    8 1      Y     2000  2.514 3.565    9.92744e-01 7.14229e-01
+  -----
+
+[Simulation begins] Mon Dec  7 23:39:03 2020
+
+dt= 0.0224798, # iters = 2000
+m x n = 400 x 400
+processor geometry: 1 x 8
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Mon Dec  7 23:39:06 2020
+
+End at iteration 1999
+Max norm: 9.92447e-01, L2norm: 7.15149e-01
+Running Time: 2.49643 sec. [3.59 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 400 400    1 8      Y     2000  2.496 3.589    9.92447e-01 7.15149e-01
+  -----
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 72: : command not found
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 73: : command not found
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 74: : command not found
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 83: : command not found
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 84: : command not found
+/opt/gridengine/default/spool/compute-0-10/job_scripts/50655: line 85: : command not found

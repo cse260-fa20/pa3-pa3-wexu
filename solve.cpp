@@ -69,7 +69,8 @@ __attribute__((optimize("no-tree-vectorize")))
 // of each element, normalizing by dividing by the number of points
 // and then taking the sequare root of the result
 //
-double L2Norm(double sumSq)
+double
+L2Norm(double sumSq)
 {
     double l2norm = sumSq / (double)((cb.m) * (cb.n));
     l2norm = sqrt(l2norm);
@@ -132,7 +133,6 @@ void exchange_value(double *E_prev)
         mtype = FROM_WORKER;
         MPI_Irecv(buffer_in_east, BLOCK_M, MPI_DOUBLE, myrank + 1, mtype, MPI_COMM_WORLD, reqs + op_count);
 
-        // pack_start_ind = 2 * (BLOCK_N + 2) - 2;
         pack_start_ind = node_m * (n + 2) * BLOCK_M + (n + 2) - 1 + BLOCK_N + node_n * BLOCK_N;
         for (i = 0; i < BLOCK_M; i++)
         {
@@ -291,9 +291,7 @@ void solve(double **_E, double **_E_prev, double *R, double alpha, double dt, Pl
     m = cb.m, n = cb.n;
 
     int innerBlockRowStartIndex = node_m * (n + 2) * BLOCK_M + (n + 2) + 1 + node_n * BLOCK_N;
-    // (BLOCK_N + 2) + 1;
     int innerBlockRowEndIndex = innerBlockRowStartIndex + (BLOCK_M - 1) * (n + 2);
-    // (((m + 2) * (n + 2) - 1) - (BLOCK_N)) - (BLOCK_N + 2);
 
     /*  MPI variables  */
     int dest,  /* task id of message destination */
@@ -336,13 +334,13 @@ void solve(double **_E, double **_E_prev, double *R, double alpha, double dt, Pl
         if (!cb.noComm)
             exchange_value(E_prev);
 
-            //////////////////////////////////////////////////////////////////////////////
-            // #define AVX2 1
-            // #define FUSED 1
+//////////////////////////////////////////////////////////////////////////////
+#define OPT 1
+#define FUSED 1
 
 #ifdef FUSED
 
-#ifdef AVX2
+#ifndef OPT
         // Solve for the excitation, a PDE
         for (j = innerBlockRowStartIndex; j <= innerBlockRowEndIndex; j += (n + 2))
         {
@@ -366,9 +364,17 @@ void solve(double **_E, double **_E_prev, double *R, double alpha, double dt, Pl
             R_tmp = R + j;
             for (i = 0; i < BLOCK_N; i++)
             {
-                E_tmp[i] = E_prev_tmp[i] + alpha * (E_prev_tmp[i + 1] + E_prev_tmp[i - 1] - 4 * E_prev_tmp[i] + E_prev_tmp[i + (n + 2)] + E_prev_tmp[i - (n + 2)]);
-                E_tmp[i] += -dt * (kk * E_prev_tmp[i] * (E_prev_tmp[i] - a) * (E_prev_tmp[i] - 1) + E_prev_tmp[i] * R_tmp[i]);
-                R_tmp[i] += dt * (epsilon + M1 * R_tmp[i] / (E_prev_tmp[i] + M2)) * (-R_tmp[i] - kk * E_prev_tmp[i] * (E_prev_tmp[i] - b - 1));
+                register double tmp_E_prev = E_prev_tmp[i];
+                register double tmp_E_prev_left = E_prev_tmp[i - 1];
+                register double tmp_E_prev_right = E_prev_tmp[i + 1];
+                register double tmp_E_prev_up = E_prev_tmp[i - (n + 2)];
+                register double tmp_E_prev_down = E_prev_tmp[i + (n + 2)];
+                register double tmp_R = R_tmp[i];
+                register double tmp_E = E_tmp[i];
+
+                tmp_E = tmp_E_prev + alpha * (tmp_E_prev_right + tmp_E_prev_left - 4 * tmp_E_prev + tmp_E_prev_down + tmp_E_prev_up);
+                E_tmp[i] = tmp_E - dt * (kk * tmp_E_prev * (tmp_E_prev - a) * (tmp_E_prev - 1) + tmp_E_prev * tmp_R);
+                R_tmp[i] = tmp_R + dt * (epsilon + M1 * tmp_R / (tmp_E_prev + M2)) * (-tmp_R - kk * tmp_E_prev * (tmp_E_prev - b - 1));
             }
         }
 #endif
