@@ -11,9 +11,6 @@
 
 #This job runs with 2  nodes, 24 cores per node for a total of 48 cores.
 
-sbatch --output="comet-96.out" --nodes=4 N1_comet-96.slurm
-sbatch --output="comet-96-nocomm.out" --nodes=4 N1_comet-96-nocomm.slurm
-
 sbatch --output="comet-192.out" --nodes=8 N2_comet-192.slurm
 sbatch --output="comet-192-nocomm.out" --nodes=8 N2_comet-192-nocomm.slurm
 

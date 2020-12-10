@@ -1,0 +1,149 @@
+apf: helper.cpp:66: double *alloc1D(int, int): Assertion `E = (double *)memalign(16, sizeof(double) * nx * ny)' failed.
+apf: helper.cpp:66: double *alloc1D(int, int): Assertion `E = (double *)memalign(16, sizeof(double) * nx * ny)' failed.
+[comet-28-33.sdsc.edu:mpi_rank_383][error_sighandler] Caught error: Aborted (signal 6)
+[comet-28-33.sdsc.edu:mpi_rank_382][error_sighandler] Caught error: Aborted (signal 6)
+[comet-28-33.sdsc.edu:mpi_rank_380][error_sighandler] Caught error: Segmentation fault (signal 11)
+[comet-28-33.sdsc.edu:mpi_rank_381][error_sighandler] Caught error: Segmentation fault (signal 11)
+[comet-28-33.sdsc.edu:mpispawn_15][readline] Unexpected End-Of-File on file descriptor 22. MPI process died?
+[comet-28-33.sdsc.edu:mpispawn_15][mtpmi_processops] Error while reading PMI socket. MPI process died?
+[comet-28-33.sdsc.edu:mpispawn_15][child_handler] MPI process (rank: 381, pid: 12858) terminated with signal 11 -> abort job
+[comet-28-11.sdsc.edu:mpirun_rsh][process_mpispawn_connection] mpispawn_15 from node comet-28-33 aborted: Error while reading a PMI socket (4)
+[comet-28-14.sdsc.edu:mpispawn_3][read_size] Unexpected End-Of-File on file descriptor 8. MPI process died?
+[comet-28-14.sdsc.edu:mpispawn_3][read_size] Unexpected End-Of-File on file descriptor 8. MPI process died?
+[comet-28-14.sdsc.edu:mpispawn_3][handle_mt_peer] Error while reading PMI socket. MPI process died?
+[comet-28-11.sdsc.edu:mpispawn_0][read_size] Unexpected End-Of-File on file descriptor 8. MPI process died?
+[comet-28-11.sdsc.edu:mpispawn_0][read_size] Unexpected End-Of-File on file descriptor 8. MPI process died?
+[comet-28-11.sdsc.edu:mpispawn_0][handle_mt_peer] Error while reading PMI socket. MPI process died?
+[comet-28-32.sdsc.edu:mpispawn_14][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-32.sdsc.edu:mpispawn_14][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-32.sdsc.edu:mpispawn_14][handle_mt_peer] Error while reading PMI socket. MPI process died?
+[comet-28-31.sdsc.edu:mpispawn_13][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-31.sdsc.edu:mpispawn_13][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-31.sdsc.edu:mpispawn_13][handle_mt_peer] Error while reading PMI socket. MPI process died?
+[comet-28-22.sdsc.edu:mpispawn_9][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-22.sdsc.edu:mpispawn_9][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-22.sdsc.edu:mpispawn_9][handle_mt_peer] Error while reading PMI socket. MPI process died?
+[comet-28-29.sdsc.edu:mpispawn_11][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-29.sdsc.edu:mpispawn_11][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-29.sdsc.edu:mpispawn_11][handle_mt_peer] Error while reading PMI socket. MPI process died?
+[comet-28-30.sdsc.edu:mpispawn_12][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-30.sdsc.edu:mpispawn_12][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-30.sdsc.edu:mpispawn_12][handle_mt_peer] Error while reading PMI socket. MPI process died?
+[comet-28-27.sdsc.edu:mpispawn_10][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-27.sdsc.edu:mpispawn_10][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-27.sdsc.edu:mpispawn_10][handle_mt_peer] Error while reading PMI socket. MPI process died?
+[comet-28-12.sdsc.edu:mpispawn_1][report_error] connect() failed: Connection refused (111)
+[comet-28-16.sdsc.edu:mpispawn_5][report_error] connect() failed: Connection refused (111)
+[comet-28-18.sdsc.edu:mpispawn_7][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-18.sdsc.edu:mpispawn_7][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-18.sdsc.edu:mpispawn_7][handle_mt_peer] Error while reading PMI socket. MPI process died?
+[comet-28-18.sdsc.edu:mpispawn_7][report_error] connect() failed: Connection refused (111)
+[comet-28-17.sdsc.edu:mpispawn_6][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-17.sdsc.edu:mpispawn_6][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-17.sdsc.edu:mpispawn_6][handle_mt_peer] Error while reading PMI socket. MPI process died?
+[comet-28-19.sdsc.edu:mpispawn_8][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-19.sdsc.edu:mpispawn_8][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-19.sdsc.edu:mpispawn_8][handle_mt_peer] Error while reading PMI socket. MPI process died?
+[comet-28-27.sdsc.edu:mpispawn_10][report_error] connect() failed: Connection refused (111)
+[comet-28-29.sdsc.edu:mpispawn_11][report_error] connect() failed: Connection refused (111)
+[comet-28-17.sdsc.edu:mpispawn_6][report_error] connect() failed: Connection refused (111)
+[comet-28-19.sdsc.edu:mpispawn_8][report_error] connect() failed: Connection refused (111)
+[comet-28-22.sdsc.edu:mpispawn_9][report_error] connect() failed: Connection refused (111)
+[comet-28-31.sdsc.edu:mpispawn_13][report_error] connect() failed: Connection refused (111)
+[comet-28-11.sdsc.edu:mpispawn_0][report_error] connect() failed: Connection refused (111)
+[comet-28-30.sdsc.edu:mpispawn_12][report_error] connect() failed: Connection refused (111)
+[comet-28-32.sdsc.edu:mpispawn_14][report_error] connect() failed: Connection refused (111)
+[comet-28-15.sdsc.edu:mpispawn_4][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-15.sdsc.edu:mpispawn_4][read_size] Unexpected End-Of-File on file descriptor 5. MPI process died?
+[comet-28-15.sdsc.edu:mpispawn_4][handle_mt_peer] Error while reading PMI socket. MPI process died?
+[comet-28-15.sdsc.edu:mpispawn_4][report_error] connect() failed: Connection refused (111)
+
+[Simulation begins] Tue Dec  8 09:48:57 2020
+
+dt= 7.41769e-05, # iters = 2000
+m x n = 8000 x 8000
+processor geometry: 4 x 96
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Tue Dec  8 09:49:01 2020
+
+End at iteration 1999
+Max norm: 9.99936e-01, L2norm: 6.74579e-01
+Running Time: 4.2106 sec. [851 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 8000 8000    4 96      Y     2000  4.211 851.2    9.99936e-01 6.74579e-01
+  -----
+
+[Simulation begins] Tue Dec  8 09:49:20 2020
+
+dt= 7.41769e-05, # iters = 2000
+m x n = 8000 x 8000
+processor geometry: 8 x 48
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Tue Dec  8 09:49:24 2020
+
+End at iteration 1999
+Max norm: 9.99936e-01, L2norm: 6.74579e-01
+Running Time: 4.33824 sec. [826 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 8000 8000    8 48      Y     2000  4.338 826.1    9.99936e-01 6.74579e-01
+  -----
+
+[Simulation begins] Tue Dec  8 09:49:44 2020
+
+dt= 7.41769e-05, # iters = 2000
+m x n = 8000 x 8000
+processor geometry: 16 x 24
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Tue Dec  8 09:49:48 2020
+
+End at iteration 1999
+Max norm: 9.99936e-01, L2norm: 6.74579e-01
+Running Time: 4.67491 sec. [767 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 8000 8000    16 24      Y     2000  4.675 766.6    9.99936e-01 6.74579e-01
+  -----
+
+[Simulation begins] Tue Dec  8 09:50:08 2020
+
+dt= 7.41769e-05, # iters = 2000
+m x n = 8000 x 8000
+processor geometry: 32 x 12
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Tue Dec  8 09:50:13 2020
+
+End at iteration 1999
+Max norm: 9.99936e-01, L2norm: 6.74579e-01
+Running Time: 5.36645 sec. [668 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 8000 8000    32 12      Y     2000  5.366 667.9    9.99936e-01 6.74579e-01
+  -----
+
+[Simulation begins] Tue Dec  8 09:50:32 2020
+
+dt= 7.41769e-05, # iters = 2000
+m x n = 8000 x 8000
+processor geometry: 64 x 6
+
+Compiled with MPI ENABLED
+
+[Simulation completes] Tue Dec  8 09:50:39 2020
+
+End at iteration 1999
+Max norm: 9.99936e-01, L2norm: 6.74579e-01
+Running Time: 6.64614 sec. [539 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 8000 8000    64 6      Y     2000  6.646 539.3    9.99936e-01 6.74579e-01
+  -----
