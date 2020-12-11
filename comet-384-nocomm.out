@@ -1,0 +1,95 @@
+
+[Simulation begins] Wed Dec  9 21:53:38 2020
+
+dt= 7.41769e-05, # iters = 2000
+m x n = 8000 x 8000
+processor geometry: 4 x 96
+
+Compiled with MPI ENABLED
+Communication shut off
+
+[Simulation completes] Wed Dec  9 21:53:41 2020
+
+End at iteration 1999
+Max norm: 1.00000e+00, L2norm: 7.07107e-01
+Running Time: 3.19012 sec. [1.12e+03 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 8000 8000    4 96      N     2000  3.19 1123    1.00000e+00 7.07107e-01
+  -----
+
+[Simulation begins] Wed Dec  9 21:54:02 2020
+
+dt= 7.41769e-05, # iters = 2000
+m x n = 8000 x 8000
+processor geometry: 8 x 48
+
+Compiled with MPI ENABLED
+Communication shut off
+
+[Simulation completes] Wed Dec  9 21:54:05 2020
+
+End at iteration 1999
+Max norm: 1.00000e+00, L2norm: 7.07107e-01
+Running Time: 3.34821 sec. [1.07e+03 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 8000 8000    8 48      N     2000  3.348 1070    1.00000e+00 7.07107e-01
+  -----
+
+[Simulation begins] Wed Dec  9 21:54:25 2020
+
+dt= 7.41769e-05, # iters = 2000
+m x n = 8000 x 8000
+processor geometry: 16 x 24
+
+Compiled with MPI ENABLED
+Communication shut off
+
+[Simulation completes] Wed Dec  9 21:54:28 2020
+
+End at iteration 1999
+Max norm: 1.00000e+00, L2norm: 7.07107e-01
+Running Time: 3.66891 sec. [977 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 8000 8000    16 24      N     2000  3.669 976.9    1.00000e+00 7.07107e-01
+  -----
+
+[Simulation begins] Wed Dec  9 21:54:48 2020
+
+dt= 7.41769e-05, # iters = 2000
+m x n = 8000 x 8000
+processor geometry: 32 x 12
+
+Compiled with MPI ENABLED
+Communication shut off
+
+[Simulation completes] Wed Dec  9 21:54:53 2020
+
+End at iteration 1999
+Max norm: 1.00000e+00, L2norm: 7.07107e-01
+Running Time: 4.36803 sec. [821 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 8000 8000    32 12      N     2000  4.368 820.5    1.00000e+00 7.07107e-01
+  -----
+
+[Simulation begins] Wed Dec  9 21:55:12 2020
+
+dt= 7.41769e-05, # iters = 2000
+m x n = 8000 x 8000
+processor geometry: 64 x 6
+
+Compiled with MPI ENABLED
+Communication shut off
+
+[Simulation completes] Wed Dec  9 21:55:18 2020
+
+End at iteration 1999
+Max norm: 1.00000e+00, L2norm: 7.07107e-01
+Running Time: 5.3878 sec. [665 GFlop/sec]
+
+   M x N   px x py Comm?   #iter  T_p, Gflops        Linf, L2
+@ 8000 8000    64 6      N     2000  5.388 665.2    1.00000e+00 7.07107e-01
+  -----

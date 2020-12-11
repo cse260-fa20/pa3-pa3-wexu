@@ -11,7 +11,7 @@
 #SBATCH --export=ALL
 ####   #SBATCH --mail-type=BEGIN,END,FAIL
 ####   #SBATCH --mail-user=your_email@ucsd.edu
-#SBATCH -t 00:03:00
+#SBATCH -t 00:06:00
 # Commands go here
 
 ibrun -np 384 ./apf -n 8000 -i 2000 -x 2 -y 192
